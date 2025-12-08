@@ -17,12 +17,16 @@
 					<h1 class="text-3xl font-bold text-gray-900">Search Results</h1>
 				</div>
 
-				<SearchSection v-model="searchQuery" @search="handleSearch" :showLastSearch="false" />
+				<SearchSection
+					v-model="searchQuery"
+					@search="handleSearch"
+					:showLastSearch="false"
+				/>
 			</div>
 
 			<!-- Initial State -->
 			<div
-				v-if="!hasSearched && !store.loading"
+				v-if="showInitialState"
 				class="bg-white rounded-lg shadow-sm p-12 text-center mb-8"
 			>
 				<div class="text-xl text-gray-600">Start a search to see results</div>
@@ -67,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-	import { onMounted, ref, watch } from 'vue';
+	import { onMounted, ref, watch, computed } from 'vue';
 	import { useRoute, useRouter } from 'vue-router';
 	import SearchSection from '@/components/books/search-section.vue';
 	import BookGrid from '@/components/books/book-grid.vue';
@@ -88,11 +92,11 @@
 	} = useBooksSearch();
 
 	const hasSearched = ref(false);
+	const showInitialState = computed(() => !hasSearched.value && !store.loading);
 	const searchQuery = ref('');
 
 	const handleSearch = (query: string) => {
 		searchQuery.value = query;
-		localStorage.setItem('lastSearchQuery', query);
 		$router.push({ name: RouterName.SearchBooks, query: { q: query } });
 		performSearch(query);
 		hasSearched.value = true;
@@ -104,7 +108,6 @@
 		(newQuery) => {
 			if (newQuery) {
 				searchQuery.value = newQuery as string;
-				localStorage.setItem('lastSearchQuery', newQuery as string);
 				if (!hasSearched.value || store.books.length === 0) {
 					performSearch(newQuery as string);
 					hasSearched.value = true;
@@ -117,15 +120,13 @@
 		const query = $route.query.q as string;
 		if (query) {
 			searchQuery.value = query;
-			localStorage.setItem('lastSearchQuery', query);
 			if (store.books.length === 0) performSearch(query);
 			hasSearched.value = true;
 		} else {
-			// No URL query, check stored query
-			const storedQuery = localStorage.getItem('lastSearchQuery');
-			if (storedQuery) {
-				searchQuery.value = storedQuery;
-				if (store.books.length === 0) performSearch(storedQuery);
+			// Use store's lastQuery
+			if (store.lastQuery) {
+				searchQuery.value = store.lastQuery;
+				if (store.books.length === 0) performSearch(store.lastQuery);
 				hasSearched.value = true;
 			}
 		}

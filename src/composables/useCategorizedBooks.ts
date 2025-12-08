@@ -6,17 +6,16 @@ export function useCategorizedBooks() {
 	const subjects = [
 		'Fiction',
 		'Fantasy',
+		'Sci-Fi',
 		'Action & Adventure',
+		'Crime & Mystery',
 		'Classics',
 		'Historical Fiction',
-		'Science Fiction',
-		'Literature',
-		'History',
-		'Crime & Mystery',
 		'Arts & Entertainment',
 		'Computers & Technology',
 		'Self-Help',
 		'Biographies',
+		'History',
 		'Philosophy',
 	];
 

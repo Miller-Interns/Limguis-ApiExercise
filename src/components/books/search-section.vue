@@ -9,7 +9,7 @@
 		/>
 		<Button icon="pi pi-search" label="Search" @click="handleSearch" />
 	</div>
-	<div v-if="store.lastQuery && props.showLastSearch" class="sm:mt-0">
+	<div v-if="showLastSearch" class="sm:mt-0">
 		Last search:
 		<a
 			href="#"
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, watch } from 'vue';
+	import { ref, watch, computed } from 'vue';
 	import InputText from 'primevue/inputtext';
 	import Button from 'primevue/button';
 	import { useBooksStore } from '@/store/books-store';
@@ -38,6 +38,9 @@
 	}>();
 
 	const store = useBooksStore();
+	const showLastSearch = computed(
+		() => store.lastQuery && props.showLastSearch
+	);
 	const localQuery = ref(props.modelValue || '');
 
 	watch(

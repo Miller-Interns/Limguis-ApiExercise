@@ -38,7 +38,7 @@
 			<!-- Book Categories -->
 			<div v-else class="space-y-8">
 				<div
-					v-for="subject in subjects"
+					v-for="subject in visibleSubjects"
 					:key="subject"
 					class="bg-white rounded-lg shadow-sm p-8"
 				>
@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ref } from 'vue';
+	import { ref, computed } from 'vue';
 	import Slider from '@/components/books/slider.vue';
 	import { useBooksSearch } from '@/composables/useBooksSearch';
 	import { useSlider } from '@/composables/useSlider';
@@ -72,6 +72,12 @@
 
 	const { store } = useBooksSearch();
 	const { store: categorizedStore, subjects } = useCategorizedBooks();
+
+	const visibleSubjects = computed(() =>
+		subjects.filter(
+			(s) => (categorizedStore.categorizedBooks[s] || []).length > 0
+		)
+	);
 
 	// Create a slider instance for each subject
 	const sliders = subjects.reduce(
