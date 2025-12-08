@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue';
-import { useBooksStore } from '@/store/books';
+import { useBooksStore } from '@/store/books-store';
 
 export function useBooksSearch() {
 	const store = useBooksStore();

@@ -5,8 +5,10 @@ export const useBooksStore = defineStore('books', {
 	state: () => ({
 		books: [] as Book[],
 		featuredBooks: [] as Book[],
+		categorizedBooks: {} as Record<string, Book[]>,
 		totalItems: 0,
 		query: '',
+		lastQuery: localStorage.getItem('lastQuery') || '',
 		startIndex: 0,
 		featuredStartIndex: 0,
 		maxResults: 20,
@@ -22,7 +24,9 @@ export const useBooksStore = defineStore('books', {
 	},
 	actions: {
 		setQuery(newQuery: string) {
+			this.lastQuery = newQuery;
 			this.query = newQuery;
+			localStorage.setItem('lastQuery', newQuery);
 		},
 
 		async fetchBooks() {
@@ -67,6 +71,10 @@ export const useBooksStore = defineStore('books', {
 
 				const data = await response.json();
 				this.featuredBooks = data.items || [];
+
+				// Shuffle the featured books for randomization
+				this.featuredBooks = this.featuredBooks.sort(() => Math.random() - 0.5);
+
 				this.featuredLastFetched = Date.now();
 
 				// persist latest featured payload to localStorage so catalogue survives reloads
@@ -122,6 +130,28 @@ export const useBooksStore = defineStore('books', {
 			if (this.startIndex >= this.maxResults) {
 				this.startIndex -= this.maxResults;
 				this.fetchBooks();
+			}
+		},
+
+		async fetchBooksBySubject(subject: string) {
+			if (!subject.trim()) return;
+
+			try {
+				const url = `https://www.googleapis.com/books/v1/volumes?q=subject:${encodeURIComponent(
+					subject
+				)}&startIndex=0&maxResults=20&langRestrict=en`;
+
+				const response = await fetch(url);
+				if (!response.ok)
+					throw new Error(`Failed to fetch books for ${subject}`);
+
+				const data = await response.json();
+				const books = data.items || [];
+				// Shuffle the books
+				this.categorizedBooks[subject] = books.sort(() => Math.random() - 0.5);
+			} catch (err) {
+				console.error(`Error fetching books for ${subject}:`, err);
+				this.categorizedBooks[subject] = [];
 			}
 		},
 

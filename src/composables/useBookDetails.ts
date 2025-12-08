@@ -1,6 +1,6 @@
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useBooksStore } from '@/store/books';
+import { useBooksStore } from '@/store/books-store';
 import type { Book } from '@/types';
 
 export function useBookDetails() {
@@ -13,12 +13,16 @@ export function useBookDetails() {
 		return book.value;
 	};
 
-	onMounted(async () => {
+	const updateBook = async () => {
 		const volumeId = route.params.id as string;
 		if (volumeId) {
 			await fetchBook(volumeId);
 		}
-	});
+	};
+
+	onMounted(updateBook);
+
+	watch(() => route.params.id, updateBook);
 
 	return {
 		book,

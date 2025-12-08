@@ -1,34 +1,92 @@
 <template>
-	<div class="max-w-4xl mx-auto p-8 bg-white text-black">
-		<Button
-			label="← Back to Books"
-			@click="$router.push({ name: RouterName.Books })"
-			class="mb-6 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-all duration-200 border border-gray-300 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50"
-		/>
+	<div class="min-h-screen bg-gray-50 py-8">
+		<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+			<!-- Header Section -->
+			<div class="bg-white rounded-lg shadow-sm p-8 mb-8">
+				<div
+					class="flex flex-col sm:flex-row items-center justify-between gap-4"
+				>
+					<Button
+						@click="$router.push({ name: RouterName.SearchBooks })"
+						severity="secondary"
+					>
+						<i class="pi pi-arrow-left"></i>
+						Back to Search
+					</Button>
+					<!-- <h1 class="text-3xl font-bold text-gray-900">Book Catalogue</h1> -->
+				</div>
+			</div>
 
-		<div v-if="store.loading" class="text-center p-8 text-xl text-gray-600">
-			Loading book details...
-		</div>
-		<div v-else-if="store.error" class="text-center p-8 text-xl text-black">
-			{{ store.error }}
-		</div>
-		<div v-else-if="book" class="flex flex-col gap-8">
-			<BookHeader :book="book" />
-			<BookDescription :description="book.volumeInfo.description" />
-			<BookISBN :industry-identifiers="book.volumeInfo.industryIdentifiers" />
+			<!-- Loading State -->
+			<div
+				v-if="store.loading"
+				class="bg-white rounded-lg shadow-sm p-12 text-center"
+			>
+				<div class="text-xl text-gray-600">Loading book details...</div>
+			</div>
+
+			<!-- Error State -->
+			<div
+				v-else-if="store.error"
+				class="bg-white rounded-lg shadow-sm p-12 text-center"
+			>
+				<div class="text-xl text-gray-900">{{ store.error }}</div>
+			</div>
+
+			<!-- Book Details -->
+			<div v-else-if="book" class="space-y-8">
+				<!-- Book Header Card -->
+				<div class="bg-white rounded-lg shadow-sm p-8">
+					<BookHeader :book="book" />
+				</div>
+
+				<!-- Description Card -->
+				<div class="bg-white rounded-lg shadow-sm p-8">
+					<BookDescription :description="book.volumeInfo.description" />
+				</div>
+
+				<!-- Other Editions Card -->
+				<div class="bg-white rounded-lg shadow-sm p-8">
+					<BookEditions :book="book" />
+				</div>
+
+				<!-- Related Books Card -->
+				<div class="bg-white rounded-lg shadow-sm p-8">
+					<BookRelated :book="book" />
+				</div>
+
+				<!-- Volume Info Card -->
+				<div class="bg-white rounded-lg shadow-sm p-8">
+					<BookVolumeInfo :book="book" />
+				</div>
+
+				<!-- Download Card -->
+				<div class="bg-white rounded-lg shadow-sm p-8">
+					<BookDownload :book="book" />
+				</div>
+
+				<!-- ISBN Card -->
+				<div class="bg-white rounded-lg shadow-sm p-8">
+					<BookISBN
+						:industry-identifiers="book.volumeInfo.industryIdentifiers"
+					/>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-	import { useRouter } from 'vue-router';
 	import Button from 'primevue/button';
 	import BookHeader from '@/components/book-details/book-header.vue';
+	import BookRelated from '@/components/book-details/book-related.vue';
+	import BookEditions from '@/components/book-details/book-editions.vue';
 	import BookDescription from '@/components/book-details/book-description.vue';
+	import BookVolumeInfo from '@/components/book-details/book-volume-info.vue';
+	import BookDownload from '@/components/book-details/book-download.vue';
 	import BookISBN from '@/components/book-details/book-isbn.vue';
 	import { useBookDetails } from '@/composables/useBookDetails';
 	import { RouterName } from '@/router';
 
-	const $router = useRouter();
 	const { book, store } = useBookDetails();
 </script>

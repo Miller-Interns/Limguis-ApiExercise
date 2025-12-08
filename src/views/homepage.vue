@@ -1,20 +1,18 @@
 <template>
-	<div
-		class="home min-h-screen flex flex-col items-center justify-center bg-gray-50"
-	>
-		<div class="text-center space-y-6 p-8">
-			<h1 class="title text-5xl font-bold text-gray-900 mb-4">
-				Google Books Finder
-			</h1>
-			<p class="description text-lg text-gray-600 max-w-md mx-auto">
-				Search and browse books using the Google Books API.
-			</p>
-			<Button
-				@click="$router.push({ name: RouterName.Books })"
-				class="mt-6 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-			>
-				Browse Books
-			</Button>
+	<div class="min-h-screen bg-gray-50 py-8 flex items-center justify-center">
+		<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="bg-white rounded-lg shadow-sm p-12 text-center">
+				<h1 class="text-5xl font-bold text-gray-900 mb-6">BookHub</h1>
+				<p class="text-lg text-gray-600 max-w-md mx-auto mb-4">
+					Discover, explore, and download books with detailed information,
+					related works, and multiple editions all in one place.
+				</p>
+				<Button @click="$router.push({ name: RouterName.Books })">
+					Browse Books
+				</Button>
+
+				<p class="text-xs text-gray-500 mt-10">Powered by Google Books API</p>
+			</div>
 		</div>
 	</div>
 </template>

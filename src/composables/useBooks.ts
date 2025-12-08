@@ -1,4 +1,4 @@
-import { useBooksStore } from '@/store/books';
+import { useBooksStore } from '@/store/books-store';
 
 export const useBooks = () => {
 	const store = useBooksStore();
