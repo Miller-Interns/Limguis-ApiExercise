@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, computed } from 'vue';
+	import { computed } from 'vue';
 	import Slider from '@/components/books/slider.vue';
 	import { useBooksSearch } from '@/composables/useBooksSearch';
 	import { useSlider } from '@/composables/useSlider';

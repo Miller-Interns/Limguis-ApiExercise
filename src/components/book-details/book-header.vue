@@ -45,7 +45,6 @@
 
 <script setup lang="ts">
 	import type { Book } from '@/types';
-	import BookDownload from './book-download.vue';
 
 	defineProps<{
 		book: Book;
