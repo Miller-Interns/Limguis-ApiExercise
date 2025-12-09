@@ -1,38 +1,21 @@
-# ./
+# API Exercise
+API Used: [Google Books](https://developers.google.com/books/)
 
-This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+---
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Homepage
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/d5630dd4-98d1-4ae8-8459-13070cc47b6f" />
 
-## Recommended Browser Setup
+## Content Pages
+### Book Catalogue Page
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/77a3922f-ddd4-4334-bb26-29109c66d223" />
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+### Search Page (With Pagination)
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/21ad0ab1-31ef-4798-bbcf-22f10514aa8e" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/fe72f512-f662-4621-a9ac-3fe3ef602f27" />
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+### Book Details Page
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/0787a489-354d-4312-ba33-4f1ff032a3bf" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4eefa539-47ab-4ce3-b0f0-e72719a24907" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/26d29ebf-f614-4f4e-bbb0-0c8a3b42deb7" />
