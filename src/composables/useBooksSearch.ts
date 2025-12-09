@@ -15,6 +15,9 @@ export function useBooksSearch() {
 
 	// pagination helpers - expose to templates so consumers don't need to rely on store's internal typings
 	const currentPage = computed(() => store.currentPage);
+	const totalPages = computed(() =>
+		hasNextPage.value ? currentPage.value + 1 : currentPage.value
+	);
 	const nextPage = () => store.nextPage();
 	const previousPage = () => store.previousPage();
 
@@ -23,6 +26,7 @@ export function useBooksSearch() {
 		performSearch,
 		hasNextPage,
 		currentPage,
+		totalPages,
 		nextPage,
 		previousPage,
 		store,

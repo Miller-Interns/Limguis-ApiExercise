@@ -5,15 +5,10 @@
 			@click="$emit('previous')"
 			:disabled="currentPage === 1"
 		/>
-		<span
-			class="mx-4 px-3 py-1  font-medium"
-			>Page {{ currentPage }}</span
+		<span class="mx-4 px-3 py-1 font-medium"
+			>Page {{ currentPage }} of {{ totalPages }}</span
 		>
-		<Button
-			label="Next"
-			@click="$emit('next')"
-			:disabled="!hasNextPage"
-		/>
+		<Button label="Next" @click="$emit('next')" :disabled="!hasNextPage" />
 	</div>
 </template>
 
@@ -23,6 +18,7 @@
 	defineProps<{
 		currentPage: number;
 		hasNextPage: boolean;
+		totalPages: number;
 	}>();
 
 	defineEmits<{

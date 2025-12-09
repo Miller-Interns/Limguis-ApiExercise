@@ -87,6 +87,7 @@
 					<Pagination
 						:current-page="currentPage"
 						:has-next-page="hasNextPage"
+						:total-pages="totalPages"
 						@previous="previousPage"
 						@next="nextPage"
 					/>
@@ -112,6 +113,7 @@
 		performSearch,
 		hasNextPage,
 		currentPage,
+		totalPages,
 		nextPage,
 		previousPage,
 		store,
