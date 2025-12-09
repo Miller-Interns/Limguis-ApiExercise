@@ -3,8 +3,9 @@
 		<!-- prev button -->
 		<button
 			@click="handlePrev"
+			:disabled="!canGoPrev"
 			aria-label="Previous"
-			class="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-80 hover:bg-opacity-100 border border-gray-300 rounded-full p-2 shadow-md transition-all duration-200 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+			class="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-80 hover:bg-opacity-100 border border-gray-300 rounded-full p-2 shadow-md transition-all duration-200 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
 		>
 			<svg
 				class="w-5 h-5 text-gray-700"
@@ -38,8 +39,9 @@
 		<!-- next button -->
 		<button
 			@click="handleNext"
+			:disabled="!canGoNext"
 			aria-label="Next"
-			class="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-80 hover:bg-opacity-100 border border-gray-300 rounded-full p-2 shadow-md transition-all duration-200 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+			class="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-80 hover:bg-opacity-100 border border-gray-300 rounded-full p-2 shadow-md transition-all duration-200 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
 		>
 			<svg
 				class="w-5 h-5 text-gray-700"
@@ -76,6 +78,9 @@
 	const itemsPerView = ref(4);
 
 	let resizeListener: (() => void) | null = null;
+	let scrollListener: (() => void) | null = null;
+
+	const currentScrollLeft = ref(0);
 
 	onMounted(async () => {
 		const updateItemsPerView = () => {
@@ -89,11 +94,26 @@
 
 		await nextTick();
 		setCardHeights();
+
+		// Ensure the slider starts at the beginning
+		internalRef.value?.scrollTo({ left: 0, behavior: 'instant' });
+
+		const updateScrollPosition = () => {
+			if (internalRef.value) {
+				currentScrollLeft.value = internalRef.value.scrollLeft;
+			}
+		};
+		internalRef.value?.addEventListener('scroll', updateScrollPosition);
+		scrollListener = updateScrollPosition;
+		updateScrollPosition(); // Initialize the scroll position
 	});
 
 	onUnmounted(() => {
 		if (resizeListener) {
 			window.removeEventListener('resize', resizeListener);
+		}
+		if (scrollListener && internalRef.value) {
+			internalRef.value.removeEventListener('scroll', scrollListener);
 		}
 	});
 
@@ -101,6 +121,15 @@
 		const len = props.items.length;
 		const perView = itemsPerView.value;
 		return len <= perView ? len : Math.floor(len / perView) * perView;
+	});
+
+	const canGoPrev = computed(() => currentScrollLeft.value > 100);
+
+	const canGoNext = computed(() => {
+		if (!internalRef.value) return false;
+		const maxScroll =
+			internalRef.value.scrollWidth - internalRef.value.clientWidth;
+		return currentScrollLeft.value < maxScroll - 100;
 	});
 
 	const setCardHeights = () => {
