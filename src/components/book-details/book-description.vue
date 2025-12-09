@@ -3,7 +3,7 @@
 		<h2 class="mb-4 text-2xl text-black font-medium">Description</h2>
 		<div
 			v-if="description"
-			class="leading-relaxed text-gray-800"
+			class="leading-relaxed text-gray-800 text-justify"
 			v-html="description"
 		></div>
 		<div v-else class="text-center py-8">
