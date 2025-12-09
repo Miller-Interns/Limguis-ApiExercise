@@ -4,6 +4,7 @@ export interface Book {
 	id: string;
 	volumeInfo: {
 		title: string;
+		subtitle?: string;
 		authors?: string[];
 		description?: string;
 		publishedDate?: string;

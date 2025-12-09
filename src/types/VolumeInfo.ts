@@ -2,6 +2,7 @@ import type { IndustryIdentifier } from './IndustryIdentifier';
 
 export interface VolumeInfo {
 	title: string;
+	subtitle?: string;
 	authors?: string[];
 	description?: string;
 	publishedDate?: string;

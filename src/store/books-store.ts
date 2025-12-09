@@ -36,9 +36,9 @@ export const useBooksStore = defineStore('books', {
 			this.error = '';
 
 			try {
-				const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(
+				const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(
 					this.query
-				)}&startIndex=${this.startIndex}&maxResults=${this.maxResults}&langRestrict=en`;
+				)}&startIndex=${this.startIndex}&maxResults=${this.maxResults}`;
 
 				const response = await fetch(url);
 				if (!response.ok) throw new Error('Failed to fetch books');
@@ -50,8 +50,9 @@ export const useBooksStore = defineStore('books', {
 				// Filter books to only include those where the query is in the title
 				const queryLower = this.query.toLowerCase();
 				this.books = fetchedBooks.filter((book: Book) => {
-					const title = book.volumeInfo.title?.toLowerCase() || '';
-					return title.includes(queryLower);
+					const fullTitle =
+						`${book.volumeInfo.title} ${book.volumeInfo.subtitle || ''}`.toLowerCase();
+					return fullTitle.includes(queryLower);
 				});
 			} catch (err) {
 				this.error = err instanceof Error ? err.message : 'An error occurred';
@@ -146,7 +147,7 @@ export const useBooksStore = defineStore('books', {
 			try {
 				const url = `https://www.googleapis.com/books/v1/volumes?q=subject:${encodeURIComponent(
 					subject
-				)}&startIndex=0&maxResults=20&langRestrict=en`;
+				)}&startIndex=0&maxResults=${this.maxResults}&langRestrict=en`;
 
 				const response = await fetch(url);
 				if (!response.ok)
