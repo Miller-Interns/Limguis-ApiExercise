@@ -44,8 +44,15 @@ export const useBooksStore = defineStore('books', {
 				if (!response.ok) throw new Error('Failed to fetch books');
 
 				const data = await response.json();
-				this.books = data.items || [];
+				let fetchedBooks = data.items || [];
 				this.totalItems = data.totalItems || 0;
+
+				// Filter books to only include those where the query is in the title
+				const queryLower = this.query.toLowerCase();
+				this.books = fetchedBooks.filter((book: Book) => {
+					const title = book.volumeInfo.title?.toLowerCase() || '';
+					return title.includes(queryLower);
+				});
 			} catch (err) {
 				this.error = err instanceof Error ? err.message : 'An error occurred';
 				this.books = [];

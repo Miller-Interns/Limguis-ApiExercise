@@ -2,7 +2,7 @@
 	<div class="flex flex-col sm:flex-row gap-4">
 		<InputText
 			v-model="localQuery"
-			placeholder="Search for books..."
+			placeholder="Search book titles..."
 			type="search"
 			class="flex-1 px-3 py-2 sm:px-4 sm:py-3"
 			@keyup.enter="handleSearch"
