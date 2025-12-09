@@ -24,11 +24,11 @@
 		<!-- scroll container -->
 		<div
 			ref="internalRef"
-			class="flex gap-4 overflow-x-auto px-2 py-2 scroll-smooth snap-x snap-mandatory no-scrollbar scrollbar-hide"
+			class="flex gap-4 overflow-x-auto pl-16 pr-16 py-2 scroll-smooth snap-x snap-mandatory no-scrollbar scrollbar-hide"
 		>
-			<template v-for="book in items" :key="book.id">
+			<template v-for="book in items.slice(0, displayedItems)" :key="book.id">
 				<div
-					class="carousel-item flex-none w-full sm:w-1/2 md:w-1/3 lg:w-1/4 snap-start"
+					class="carousel-item flex-none w-[20%] sm:w-1/3 md:w-1/4 lg:w-[27%] snap-start"
 				>
 					<BookItem :book="book" />
 				</div>
@@ -61,7 +61,7 @@
 <script setup lang="ts">
 	import BookItem from './book-item.vue';
 	import type { Book } from '@/types';
-	import { ref } from 'vue';
+	import { ref, computed, onMounted, onUnmounted } from 'vue';
 
 	const props = defineProps<{
 		items: Book[];
@@ -73,6 +73,33 @@
 	// If parent passed a ref, use it; otherwise create an internal one
 	const internalRef = props.sliderRef ?? ref<HTMLElement | null>(null);
 
+	const itemsPerView = ref(4);
+
+	let resizeListener: (() => void) | null = null;
+
+	onMounted(() => {
+		const updateItemsPerView = () => {
+			const width = window.innerWidth;
+			itemsPerView.value =
+				width >= 1024 ? 4 : width >= 768 ? 3 : width >= 640 ? 2 : 1;
+		};
+		updateItemsPerView();
+		window.addEventListener('resize', updateItemsPerView);
+		resizeListener = updateItemsPerView;
+	});
+
+	onUnmounted(() => {
+		if (resizeListener) {
+			window.removeEventListener('resize', resizeListener);
+		}
+	});
+
+	const displayedItems = computed(() => {
+		const len = props.items.length;
+		const perView = itemsPerView.value;
+		return len <= perView ? len : Math.floor(len / perView) * perView;
+	});
+
 	const scrollByAmount = (el: HTMLElement | null, amount: number) => {
 		if (!el) return;
 		el.scrollBy({ left: amount, behavior: 'smooth' });
@@ -82,12 +109,10 @@
 		const el = (internalRef as any).value as HTMLElement | null;
 		if (!el) return 0;
 		const child = el.querySelector('.carousel-item') as HTMLElement | null;
-		if (child) {
-			const style = getComputedStyle(child);
-			const mr = parseFloat(style.marginRight || '0');
-			return child.clientWidth + mr;
-		}
-		return el.clientWidth * 0.8;
+		if (!child) return 0;
+		const containerStyle = getComputedStyle(el);
+		const gap = parseFloat(containerStyle.gap || '0');
+		return itemsPerView.value * (child.clientWidth + gap);
 	};
 
 	const handleNext = () => {
