@@ -5,7 +5,7 @@
 			@click="handlePrev"
 			:disabled="!canGoPrev"
 			aria-label="Previous"
-			class="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-80 hover:bg-opacity-100 border border-gray-300 rounded-full p-2 shadow-md transition-all duration-200 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+			class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-80 hover:bg-opacity-100 border border-gray-300 rounded-full p-2 shadow-md transition-all duration-200 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
 		>
 			<svg
 				class="w-5 h-5 text-gray-700"
@@ -25,11 +25,11 @@
 		<!-- scroll container -->
 		<div
 			ref="internalRef"
-			class="flex gap-4 overflow-x-auto pl-16 pr-16 py-2 scroll-smooth snap-x snap-mandatory no-scrollbar scrollbar-hide"
+			class="flex gap-4 overflow-x-auto py-2 scroll-smooth snap-x snap-mandatory no-scrollbar scrollbar-hide"
 		>
 			<template v-for="book in items.slice(0, displayedItems)" :key="book.id">
 				<div
-					class="carousel-item flex-none w-[20%] sm:w-1/3 md:w-1/4 lg:w-[27%] snap-start"
+					class="carousel-item flex-none w-full sm:w-1/3 md:w-1/4 lg:w-[23.7%] snap-start"
 				>
 					<BookItem :book="book" />
 				</div>
@@ -41,7 +41,7 @@
 			@click="handleNext"
 			:disabled="!canGoNext"
 			aria-label="Next"
-			class="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-80 hover:bg-opacity-100 border border-gray-300 rounded-full p-2 shadow-md transition-all duration-200 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+			class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-80 hover:bg-opacity-100 border border-gray-300 rounded-full p-2 shadow-md transition-all duration-200 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
 		>
 			<svg
 				class="w-5 h-5 text-gray-700"
