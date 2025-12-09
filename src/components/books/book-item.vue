@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="border border-gray-300 rounded-lg overflow-hidden transition-shadow duration-300 bg-white hover:shadow-lg hover:border-black"
+		class="border border-gray-300 rounded-lg overflow-hidden transition-shadow duration-300 bg-white hover:shadow-lg hover:border-black h-80"
 	>
 		<router-link
 			:to="{ name: RouterName.BookDetails, params: { id: book.id } }"

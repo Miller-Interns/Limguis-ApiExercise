@@ -61,7 +61,7 @@
 <script setup lang="ts">
 	import BookItem from './book-item.vue';
 	import type { Book } from '@/types';
-	import { ref, computed, onMounted, onUnmounted } from 'vue';
+	import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
 
 	const props = defineProps<{
 		items: Book[];
@@ -77,7 +77,7 @@
 
 	let resizeListener: (() => void) | null = null;
 
-	onMounted(() => {
+	onMounted(async () => {
 		const updateItemsPerView = () => {
 			const width = window.innerWidth;
 			itemsPerView.value =
@@ -86,6 +86,9 @@
 		updateItemsPerView();
 		window.addEventListener('resize', updateItemsPerView);
 		resizeListener = updateItemsPerView;
+
+		await nextTick();
+		setCardHeights();
 	});
 
 	onUnmounted(() => {
@@ -99,6 +102,21 @@
 		const perView = itemsPerView.value;
 		return len <= perView ? len : Math.floor(len / perView) * perView;
 	});
+
+	const setCardHeights = () => {
+		const el = internalRef.value;
+		if (!el) return;
+		const items = el.querySelectorAll(
+			'.carousel-item'
+		) as NodeListOf<HTMLElement>;
+		let maxHeight = 0;
+		items.forEach((item) => {
+			maxHeight = Math.max(maxHeight, item.offsetHeight);
+		});
+		items.forEach((item) => {
+			item.style.height = maxHeight + 'px';
+		});
+	};
 
 	const scrollByAmount = (el: HTMLElement | null, amount: number) => {
 		if (!el) return;
