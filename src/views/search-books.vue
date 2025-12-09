@@ -50,8 +50,34 @@
 
 			<!-- Search Results -->
 			<div v-else-if="hasSearched" class="space-y-8">
-				<div class="bg-white rounded-lg shadow-sm p-8">
+				<div
+					v-if="store.books.length > 0"
+					class="bg-white rounded-lg shadow-sm p-8"
+				>
 					<BookGrid :books="store.books" />
+				</div>
+
+				<!-- No Results -->
+				<div v-else class="bg-white rounded-lg shadow-sm p-12 text-center">
+					<svg
+						class="mx-auto h-12 w-12 text-gray-400"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-.98-5.5-2.5m.5-4C6.19 8.98 4.24 9 2 9s-4.19-.02-4.5-.5m0 0C1.19 8.48 0 7.5 0 6s1.19-2.48 2.5-2.5C3.81 3.02 5.76 3 8 3s4.19.02 4.5.5m0 0C12.81 3.52 14 4.5 14 6s-1.19 2.48-2.5 2.5z"
+						/>
+					</svg>
+					<h3 class="mt-2 text-sm font-medium text-gray-900">
+						No Results Found
+					</h3>
+					<p class="mt-1 text-sm text-gray-500">
+						No books match your search query. Try adjusting your search terms.
+					</p>
 				</div>
 
 				<div
