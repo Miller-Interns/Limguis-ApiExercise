@@ -7,13 +7,13 @@
 					class="flex flex-col sm:flex-row items-center justify-between gap-4"
 				>
 					<Button
-						@click="$router.push({ name: RouterName.SearchBooks })"
+						@click="$router.push({ name: RouterName.Books })"
 						severity="secondary"
+						class="p-button"
 					>
 						<i class="pi pi-arrow-left"></i>
-						Back to Search
+						Back to Catalogue
 					</Button>
-					<!-- <h1 class="text-3xl font-bold text-gray-900">Book Catalogue</h1> -->
 				</div>
 			</div>
 
